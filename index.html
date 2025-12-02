@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modal Iframe with Parallax Background</title>
+    <title>Modal Iframe with Floating Decor</title>
     <style>
         /* --- General Reset --- */
         html, body {
@@ -15,29 +15,50 @@
             background-color: #333;
         }
 
-        /* --- Parallax Background Container --- */
-        #background-container {
+        body {
+            /* Replace with your main background image path/URL */
+            background-image: url('./asset/background.png'); 
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            position: relative; 
+        }
+
+        /* --- Decorative Images Container --- */
+        /* This container holds the floating elements */
+        #decor-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* Adds smooth transition for the movement effect */
-            transition: transform 0.1s linear; 
-            /* Set a perspective for correct 3D rotation effects */
-            perspective: 1000px; 
+            pointer-events: none; /* Allows clicks to pass through to the background */
+            z-index: 5; /* Behind the modal and button */
         }
 
-        #background-image {
-            width: 100%;
-            height: 100%;
-            background-image: url('./asset/background.png'); /* Replace with your image path/URL */
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
+        .decor-image {
+            position: absolute;
+            /* Start them off at various fixed positions */
+            transition: transform 0.1s linear; /* Smooth reaction to mouse move */
+            pointer-events: none; /* Ensures they can't be clicked */
         }
 
-        /* --- Button Styles (Fixed bottom-right, always visible) --- */
+        /* Define specific sizes and starting positions for your images */
+        #decor-image-1 {
+            width: 150px;
+            top: 10%;
+            left: 5%;
+        }
+
+        #decor-image-2 {
+            width: 80px;
+            bottom: 15%;
+            right: 10%;
+        }
+        
+        /* Add more IDs/classes for more images if needed */
+
+        /* --- Button Styles --- */
         #toggle-button {
             position: fixed; 
             bottom: 20px;    
@@ -111,15 +132,16 @@
             height: 100%;
             border: none; 
             allow: "fullscreen";
-             src: "https://flamepass.com";
         }
     </style>
 </head>
 <body>
-    
-    <!-- New background container for parallax -->
-    <div id="background-container">
-        <div id="background-image"></div>
+
+    <!-- Container for floating images -->
+    <div id="decor-container">
+        <!-- REPLACE src ATTRIBUTES WITH YOUR ACTUAL IMAGE PATHS (e.g., abstract-shape.png) -->
+        <img src="path/to/your/image1.png" alt="Floating decor 1" class="decor-image" id="decor-image-1">
+        <img src="path/to/your/image2.png" alt="Floating decor 2" class="decor-image" id="decor-image-2">
     </div>
 
     <div id="backdrop-overlay"></div>
@@ -153,30 +175,21 @@
             }
         }
 
-        // --- Parallax Effect Script (New Functionality) ---
-        const backgroundContainer = document.getElementById('background-container');
-        const sensitivity = 0.05; // Controls how much the image moves (adjust lower for less movement)
-        const maxTilt = 2; // Maximum rotation in degrees
+        // --- Parallax Effect Script for Decor Images ---
+        const decorImages = document.querySelectorAll('.decor-image');
+        const parallaxStrength = 20; // How many pixels the images move (adjust for sensitivity)
 
         document.addEventListener('mousemove', (e) => {
-            // Get center point of the screen
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
+            decorImages.forEach(image => {
+                // Calculate movement based on mouse position relative to center
+                const offsetX = (e.clientX / window.innerWidth - 0.5) * parallaxStrength;
+                const offsetY = (e.clientY / window.innerHeight - 0.5) * parallaxStrength;
 
-            // Calculate offset from center (-1 to 1 range)
-            const offsetX = (e.clientX - centerX) * sensitivity;
-            const offsetY = (e.clientY - centerY) * sensitivity;
-            
-            // Calculate tilt based on mouse position
-            const tiltY = (e.clientX - centerX) / centerX * maxTilt;
-            const tiltX = (centerY - e.clientY) / centerY * maxTilt;
-
-
-            // Apply the 3D transforms
-            backgroundContainer.style.transform = 
-                `translate3d(${offsetX}px, ${offsetY}px, 0px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+                // Apply translation, ensuring images move *with* the cursor slightly
+                image.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+            });
         });
-
     </script>
 </body>
 </html>
+
