@@ -101,6 +101,37 @@
             padding: 5px 10px; background-color: rgba(0, 0, 0, 0.6); color: white;
             font-size: 12px;
         }
+
+        .move-container {
+    position: relative; /* Allows movement relative to its original position */
+    cursor: pointer;
+    display: inline-flex; /* Aligns image and text horizontally */
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    transition: left 0.5s ease; /* Smooth transition for the 'left' property */
+    left: 0; /* Default position (left) */
+    width: 200px; /* Adjust width as needed */
+    text-align: center;
+}
+
+.move-image {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.move-text {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Class to be added/removed by JavaScript */
+.move-right {
+    left: 100px; /* Moves the element 100px to the right when this class is active */
+}
+
     </style>
 </head>
 <body>
@@ -124,6 +155,11 @@
         <img src="./asset/iframeimage2.png" alt="Floating decor 2" class="decor-image" id="decor-image-2">
     </div>
 
+<div class="move-container" onclick="toggleMovement()">
+        <img src="via.placeholder.com" alt="placeholder image" class="move-image">
+        <span class="move-text">Click to Move</span>
+    </div>
+    
     <script>
         const iframeEl = document.getElementById('content-frame');
         const iframeContainerEl = document.getElementById('iframe-container');
@@ -169,6 +205,12 @@
                 });
             }
         });
+
+        function toggleMovement() {
+    var element = document.querySelector('.move-container');
+    element.classList.toggle('move-right');
+}
+
     </script>
 </body>
 </html>
