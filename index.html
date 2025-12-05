@@ -106,6 +106,28 @@
         #blooket-cheats {
             
         }
+
+        /* This targets the image *inside* the specific div */
+#blooket-cheats img {
+    /* Ensures the image never stretches beyond its original dimensions, 
+       but scales down if the screen is narrower than the image */
+    max-width: 100%; 
+    
+    /* Maintains the image's aspect ratio */
+    height: auto;   
+    
+    /* Adds some space around the image so it doesn't touch other elements */
+    margin: 15px; 
+}
+
+        #blooket-cheats {
+    /* This makes the container a "flexbox" layout */
+    display: flex; 
+    
+    /* This centers the content (your image) horizontally within the container */
+    justify-content: center; 
+}
+
     </style>
 </head>
 <body>
@@ -113,7 +135,7 @@
     <div id="backdrop-overlay"></div>
 
   <div id="blooket-cheats">
-    <img src="blooket_cheats.png" alt="Description of the image content">
+    <img src="blooketcheats1.png" alt="Description of the image content">
 </div>
 
 
